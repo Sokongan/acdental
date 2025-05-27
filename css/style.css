@@ -1,0 +1,67 @@
+html, body {
+    height: 100%;
+    font-size: 1.2rem;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header, footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+}
+
+header {
+    top: 0;
+    height: 60px;
+    background-color: #007bff;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+footer {
+    bottom: 0;
+    height: 60px;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+main {
+    position: absolute;
+    top: 60px;
+    bottom: 60px;
+    overflow-y: auto;
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.list-group-item {
+    padding: 1rem; /* Add padding for more spacing between items */
+    border-radius: 8px; /* Rounded corners */
+    margin-bottom: 0.5rem; /* Add spacing between items */
+    background-color: #fff; /* White background for better contrast */
+    border: 1px solid #ddd; /* Subtle border for separation */
+}
+
+.btn {
+    padding: 0.5rem 1rem; /* Adjust button size for zoomed-in appearance */
+    font-size: 1rem; /* Increase button font size */
+}
+
+.dropdown-menu {
+    font-size: 1.1rem; /* Larger dropdown font */
+}
+
+
+
