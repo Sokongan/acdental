@@ -1,22 +1,27 @@
 <?php
-include 'connection/db.php';
+require_once __DIR__ . '/config/bootstrap.php';
 
 if (isset($_GET['q'])) {
     $query = trim($_GET['q']);
-    $query = $conn->real_escape_string($query);
+    $likeQuery = '%' . $query . '%';
 
     $sql = "SELECT * FROM tbl_patient WHERE 
-            first_name LIKE '%$query%' OR 
-            last_name LIKE '%$query%' OR 
-            CONCAT(first_name, ' ', last_name) LIKE '%$query%'
+            first_name LIKE :q OR 
+            last_name LIKE :q OR 
+            CONCAT(first_name, ' ', last_name) LIKE :q
             LIMIT 10";
-    $result = $conn->query($sql);
 
-    if ($result && $result->num_rows > 0) {
-        while ($patient = $result->fetch_assoc()) {
-            $fullName = htmlspecialchars($patient['last_name'] . ', ' . $patient['first_name'] . ' ' . $patient['middle_initial']);
-            $lastVisit = htmlspecialchars($patient['last_visit']);
-            $phone = htmlspecialchars($patient['phone']);
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':q', $likeQuery, PDO::PARAM_STR);
+    $stmt->execute();
+
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if ($results) {
+        foreach ($results as $patient) {
+            $fullName = htmlspecialchars($patient['last_name'] . ', ' . $patient['first_name'] . ' ' . ($patient['middle_initial'] ?? ''));
+            $lastVisit = htmlspecialchars($patient['last_visit'] ?? '');
+            $phone = htmlspecialchars($patient['phone'] ?? '');
             $patientId = (int)$patient['id'];
 
             echo "

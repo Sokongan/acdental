@@ -1,0 +1,20 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ef5e9f 0%, #f88733 100%);
+    min-height: 100vh;
+  }
+  
+  .blob {
+    position: absolute;
+    width: 650px;
+    height: 650px;
+    opacity: 25%;
+    pointer-events: none; /* prevents mouse interaction */
+    z-index: 0;
+  }
+  
+  
