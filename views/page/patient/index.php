@@ -1,13 +1,10 @@
-<?php include('index.php'); ?>
-    <!--MODAL!!!!-->
-<?php include('modal/patient_add_modal.php'); ?>
 <div class="content">
     <!-- Patients Section -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h4">Patients</h1>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newPatientModal">New Patient</button>
     </div>
-<!--Live Search Code-->
+    <!--Live Search Code-->
     <div class="input-group mb-3">
         <input type="text" id="liveSearch" class="form-control" placeholder="Enter Patient Name" aria-label="Patient Name">
     </div>
@@ -15,7 +12,7 @@
     <div id="searchResults" class="list-group"></div>
 
     <script>
-        document.getElementById('liveSearch').addEventListener('input', function () {
+        document.getElementById('liveSearch').addEventListener('input', function() {
             const query = this.value;
 
             // Check if query is not empty
@@ -31,7 +28,7 @@
             }
         });
     </script>
-<!--Live Search Code END-->
+    <!--Live Search Code END-->
 
     <div class="mb-3 d-flex justify-content-between align-items-center">
         <select class="form-select w-auto" aria-label="Sort">
@@ -43,44 +40,40 @@
 
     <div class="list-group">
         <?php
-       require_once __DIR__ . '/config/bootstrap.php';
 
         // Pagination logic
-        $limit = 3;
+        $limit = 3; // Number of records per page
         $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
         $offset = ($page - 1) * $limit;
 
         // Fetch total number of patients
         $totalResult = $pdo->query("SELECT COUNT(*) AS total FROM tbl_patient");
-        $totalPatientsRow = $totalResult->fetch(); // PDO returns assoc by default
-        $totalPatients = $totalPatientsRow['total'];
+        $totalPatients = $totalResult->fetch_assoc()['total'];
         $totalPages = ceil($totalPatients / $limit);
 
         // Fetch patients for the current page
-        $stmt = $pdo->prepare("SELECT * FROM tbl_patient LIMIT :limit OFFSET :offset");
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-        $stmt->execute();
-        $patients = $stmt->fetchAll(); // gets all rows as associative arrays
+        $sql = "SELECT * FROM tbl_patient LIMIT $limit OFFSET $offset";
+        $result = $pdo->query($sql);
 
-        if ($patients) {
-            foreach ($patients as $patient) {
+        if ($result && $result->num_rows > 0) {
+            while ($patient = $result->fetch_assoc()) {
                 $fullName = htmlspecialchars($patient['last_name'] . ', ' . $patient['first_name'] . ' ' . $patient['middle_initial']);
+                //$lastVisit = htmlspecialchars($patient['last_visit']);
                 $phone = htmlspecialchars($patient['phone']);
                 $patientId = (int)$patient['id'];
-        
+
                 echo "
-                <div class='list-group-item d-flex justify-content-between align-items-center'>
-                    <div>
-                        <h5 class='mb-1'>{$fullName}</h5>
-                        <p class='mb-0'>Last Visit:  | Phone: {$phone}</p>
-                    </div>
-                    <div>
-                        <a href='view_patient.php?id={$patientId}' class='btn btn-outline-primary btn-sm' title='View'>
-                            <i class='bi bi-eye'></i>
-                        </a>
-                    </div>
-                </div>";
+            <div class='list-group-item d-flex justify-content-between align-items-center'>
+                <div>
+                    <h5 class='mb-1'>{$fullName}</h5>
+                    <p class='mb-0'>Last Visit:  | Phone: {$phone}</p>
+                </div>
+                <div>
+                    <a href='view_patient.php?id={$patientId}' class='btn btn-outline-primary btn-sm' title='View'>
+                        <i class='bi bi-eye'></i>
+                    </a>
+                </div>
+            </div>";
             }
         } else {
             echo "<div class='alert alert-info'>No patients found.</div>";
@@ -118,4 +111,3 @@
         </nav>
     </div>
 </div>
-

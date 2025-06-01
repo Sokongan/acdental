@@ -37,7 +37,7 @@ $patient['age'] = $age;
         .profile-header {
             text-align: center;
             margin-bottom: 20px;
-            padding-bottom: ;
+            padding-bottom: 0px;
         }
 
         .action-buttons button {

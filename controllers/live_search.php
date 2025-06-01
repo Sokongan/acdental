@@ -25,7 +25,7 @@ if (isset($_GET['q'])) {
             $patientId = (int)$patient['id'];
 
             echo "
-            <div class='list-group-item d-flex justify-content-between align-items-center'>
+            <div class='mb-3 list-group-item d-flex justify-content-between align-items-center'>
                 <div>
                     <h5 class='mb-1'>{$fullName}</h5>
                     <p class='mb-0'>Last Visit: {$lastVisit} | Phone: {$phone}</p>

@@ -1,0 +1,43 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ef5e9f 0%, #f88733 100%);
+    min-height: 100vh;
+  }
+  
+  .blob {
+    position: absolute;
+    width: 650px;
+    height: 650px;
+    opacity: 25%;
+    pointer-events: none; /* prevents mouse interaction */
+    z-index: 0;
+  }
+  
+  .tooth {
+  opacity: 25%;
+  position: absolute; /* or relative, depending on use */
+  z-index: -1; /* push it behind form elements */
+  pointer-events: none; /* avoid mouse interference */
+  width: 229px;
+  height: 229px;
+  top: 10%; /* position as needed */
+  left: 10%; /* position as needed */
+  overflow: hidden;
+}
+
+.tooth svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+
+form, .form-control, span {
+  position: relative;
+  z-index: 10; /* Higher */
+}

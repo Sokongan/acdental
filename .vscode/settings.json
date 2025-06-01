@@ -13,6 +13,20 @@
             "database": "ac_dental",
             "username": "dental_user",
             "password": "secret"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3307,
+            "driver": "MySQL",
+            "name": "ac_dental",
+            "database": "ac_dental",
+            "username": "dental_user",
+            "password": "secret"
         }
     ]
 }
