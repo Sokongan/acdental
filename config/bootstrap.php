@@ -8,10 +8,13 @@ error_reporting(E_ALL);
 
 define('BASE_PATH', dirname(__DIR__));
 define('BASE_URL', '/acdental');
+define('HOMEURLVAR', 'page');
+
 
 require_once BASE_PATH . '/core/Router.php';
 require_once BASE_PATH . '/core/View.php';
 require_once BASE_PATH . '/core/Container.php';
+require_once BASE_PATH . '/core/Utils.php';
 require_once BASE_PATH . '/lib/conn.php'; // this must return PDO
 
 $pdo = require BASE_PATH . '/lib/conn.php';  // ✅ This line was missing

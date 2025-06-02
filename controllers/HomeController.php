@@ -8,9 +8,11 @@ class HomeController
             header('Location: /login');
             exit();
         }
-
-        View::render('/page/home/dashboard', [
-            'pageTitle' => 'Dashboard'
+    
+        View::render('page/home/dashboard', [
+            'pageTitle'   => 'Dashboard',
+            'breadcrumbs' => ['Dashboard' => '/']
         ]);
     }
+    
 }

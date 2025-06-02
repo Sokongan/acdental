@@ -13,7 +13,7 @@ class AuthController
 
     public function showLogin()
     {
-        View::render('page/auth/login', [
+        View::render('/page/auth/login', [
             'pageTitle' => 'Login'
         ]);
     }
@@ -41,7 +41,7 @@ class AuthController
         if ($user && $params['password'] === $user['password']) {
             $_SESSION['username'] = $user['username'];
             session_regenerate_id(true);
-            header("Location: /");  // redirect to route, not file
+            header("Location: /dashboard");  // redirect to route, not file
             exit();
         } else {
             View::render('/page/auth/login', [

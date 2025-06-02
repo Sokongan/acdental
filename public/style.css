@@ -5,7 +5,6 @@ body {
     overflow-y: hidden;
     overflow-x: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #ef5e9f 0%, #f88733 100%);
     min-height: 100vh;
   }
   

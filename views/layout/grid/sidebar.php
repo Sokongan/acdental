@@ -19,7 +19,8 @@
        role="menu"
        data-accordion="false">
        <li class="nav-item menu-open">
-         <a href="#" class="nav-link active">
+        
+         <a href="#" class="nav-link">
            <i class="nav-icon bi bi-speedometer"></i>
            <p>
              Dashboard
@@ -28,23 +29,19 @@
          </a>
          <ul class="nav nav-treeview">
            <li class="nav-item">
-             <a href="patient" class="nav-link">
+            <a href="/patient" class="nav-link <?= Utils::isActive('/patient') ?>">
                <i class="nav-icon bi bi-circle"></i>
                <p>Patient</p>
              </a>
            </li>
            <li class="nav-item">
-             <a href="./index2.html" class="nav-link">
+           <a href="/dashboard" class="nav-link <?= Utils::isActive('/dashboard') ?>">
                <i class="nav-icon bi bi-circle"></i>
                <p>Dashboard v2</p>
              </a>
            </li>
-           <li class="nav-item">
-             <a href="./index3.html" class="nav-link active">
-               <i class="nav-icon bi bi-circle"></i>
-               <p>Dashboard v3</p>
-             </a>
-           </li>
+
+
          </ul>
        </li>
 
@@ -52,3 +49,18 @@
      <!--end::Sidebar Menu-->
    </nav>
  </div>
+
+ <!-- <li class="nav-item">
+        <a href="/"
+           <?= Utils::isActive('/') ?>
+           class="nav-link">
+           Dashboard
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="/patient"
+           <?= Utils::isActive('/patient') ?>
+           class="nav-link">
+           Patients
+        </a>
+    </li> -->
