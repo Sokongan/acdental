@@ -1,4 +1,8 @@
 <?php   
+namespace App\Core;
+use ReflectionClass;
+use ReflectionNamedType;
+use Exception;
 class Container
 {
     private array $instances = [];

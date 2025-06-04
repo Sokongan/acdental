@@ -1,4 +1,5 @@
 <?php
+namespace App\Core;
 
 class Router
 {
@@ -16,8 +17,8 @@ class Router
 
     private static function addRoute(string $method, string $path, callable $handler): void
     {
-        $pattern = preg_replace('#\{([\w]+)\}#', '(?P<\1>[^/]+)', $path); // replace {id} with named capture group
-        $pattern = "#^" . rtrim($pattern, '/') . "/?$#"; // allow trailing slash
+        $pattern = preg_replace('#\{([\w]+)\}#', '(?P<\1>[^/]+)', $path);
+        $pattern = "#^" . rtrim($pattern, '/') . "/?$#";
         self::$routes[$method][] = ['pattern' => $pattern, 'handler' => $handler];
     }
 
@@ -28,7 +29,6 @@ class Router
 
         foreach (self::$routes[$method] ?? [] as $route) {
             if (preg_match($route['pattern'], $uri, $matches)) {
-                // Extract only named params (no numeric keys)
                 $params = array_filter($matches, fn($k) => is_string($k), ARRAY_FILTER_USE_KEY);
                 call_user_func_array($route['handler'], $params);
                 return;
@@ -36,6 +36,6 @@ class Router
         }
 
         http_response_code(404);
-        include BASE_PATH . '/views/404.php';
+        include BASE_PATH . '/src/Views/404.php';
     }
 }

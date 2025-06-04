@@ -1,21 +1,20 @@
 <?php
+// routes.php
 
-require_once BASE_PATH . '/controllers/HomeController.php';
-require_once BASE_PATH . '/controllers/AuthController.php';
-require_once BASE_PATH . '/controllers/PatientController.php';
+use App\Core\Router;
+use App\Controllers\AuthController;
+use App\Controllers\HomeController;
+use App\Controllers\PatientController;
 
-// Use the DI container from index.php
+// The $container instance comes from bootstrap.php, so make sure bootstrap.php
+// returns it and is required *before* this file
 
 $authController = $container->get(AuthController::class);
 $homeController = $container->get(HomeController::class);
 $patientController = $container->get(PatientController::class);
 
 Router::get('/dashboard', [$homeController, 'index']);
-
-Router::get('/patient',[$patientController,'index']);
-
+Router::get('/patient', [$patientController, 'index']);
 Router::get('/login', [$authController, 'showLogin']);
 Router::post('/login', [$authController, 'login']);
 Router::get('/logout', [$authController, 'logout']);
-
-

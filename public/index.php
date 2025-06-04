@@ -2,11 +2,16 @@
 
 declare(strict_types=1);
 
-// Bootstrap the app (DI container, env, DB setup, etc.)
+use App\Core\Router;
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+
+// Bootstrap returns DI container instance
 $container = require_once __DIR__ . '/../config/bootstrap.php';
 
-// Load route definitions
+// Load routes file (which uses $container and Router)
 require_once __DIR__ . '/../routes.php';
 
-// Dispatch current request
+// Dispatch the request using your Router
 Router::dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

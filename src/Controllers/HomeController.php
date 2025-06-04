@@ -1,13 +1,14 @@
 <?php
 
-class HomeController
+namespace App\Controllers;
+
+use App\Core\View;
+use App\Core\Controller;
+class HomeController extends Controller
 {
     public function index()
     {
-        if (!isset($_SESSION['username'])) {
-            header('Location: /login');
-            exit();
-        }
+        $this->requireLogin();
     
         View::render('page/home/dashboard', [
             'pageTitle'   => 'Dashboard',

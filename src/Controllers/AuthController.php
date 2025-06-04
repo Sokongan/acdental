@@ -1,55 +1,61 @@
 <?php
 
+namespace App\Controllers;
 
-class AuthController
+use App\Core\View;
+use App\Core\Controller;
+use App\Models\UserModel;
+
+class AuthController extends Controller
 {
-    private PDO $pdo;
+    protected UserModel $userModel;
 
-    // The container will automatically inject PDO here
-    public function __construct(PDO $pdo)
+    public function __construct(UserModel $userModel)
     {
-        $this->pdo = $pdo;
+        $this->userModel = $userModel;
     }
+
 
     public function showLogin()
     {
-        View::render('/page/auth/login', [
-            'pageTitle' => 'Login'
+        $this->redirectIfLoggedIn(); // redirect to dashboard if already logged in
+    
+        View::render('page/auth/login', [
+            'pageTitle' => 'Login',
         ]);
     }
+    
 
     public function login()
     {
         $params = [
-            'user' => $_POST['username'],
-            'password' => $_POST['password']
+            'user' => $_POST['username'] ?? '',
+            'password' => $_POST['password'] ?? ''
         ];
-
+    
         if (!$params['user'] || !$params['password']) {
-            View::render('/page/auth/login', [
+            View::render('page/auth/login', [
                 'pageTitle' => 'Login',
                 'error' => 'Username and password are required.'
             ]);
             return;
         }
-  
-        // Assume $this->pdo is injected PDO instance available in controller
-        $stmt = $this->pdo->prepare("SELECT * FROM user WHERE username = ? LIMIT 1");
-        $stmt->execute([$params['user']]);
-        $user = $stmt->fetch();
-     
+    
+        $user = $this->userModel->userAuth($params['user']);
         if ($user && $params['password'] === $user['password']) {
+            session_start();
             $_SESSION['username'] = $user['username'];
             session_regenerate_id(true);
-            header("Location: /dashboard");  // redirect to route, not file
+            header("Location: /dashboard");
             exit();
         } else {
-            View::render('/page/auth/login', [
+            View::render('page/auth/login', [
                 'pageTitle' => 'Login',
                 'error' => 'Invalid username or password.'
             ]);
         }
     }
+    
 
 
     public function logout()
