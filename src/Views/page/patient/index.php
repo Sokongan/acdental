@@ -1,11 +1,12 @@
+
 <div class="card">
-    <div class="card-body container-fluid">
+    <div class="card-body">
         <h2 class="mb-4">Patient List</h2>
         <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
             <div class="">
                 <div class="row">
                     <div class="col-sm-12">
-                        <table id="myTable" class="table table-bordered table-striped dataTable dtr-inline">
+                        <table id="myTable" class="text-center table table-bordered table-striped dataTable dtr-inline">
                             <thead>
                                 <tr>
                                     <th>First Name</th>
@@ -14,6 +15,7 @@
                                     <th>Contact Number</th>
                                     <th>Date of Birth</th>
                                     <th>Address</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -26,6 +28,11 @@
                                             <td><?= ($patient['phone'] ?? '-') ?></td>
                                             <td><?= ($patient['birth_date'] ?? '-') ?></td>
                                             <td><?= ($patient['address'] ?? '-') ?></td>
+                                            <td>
+                                                <a href="patient/view/id=<?= $patient['id']; ?>" class="btn btn-info btn-sm">View</a>
+                                                <a href='patient/edit/' class="btn btn-warning btn-sm">Edit</a>
+                                                <a href='patient/delete/' class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this patient?');">Delete</a>
+                                            </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>

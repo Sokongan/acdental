@@ -13,7 +13,7 @@ abstract class Controller
         }
 
         if (empty($_SESSION['username'])) {
-            header('Location: /login');
+            header('Location: /auth/login');
             exit();
         }
     }

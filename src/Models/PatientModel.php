@@ -20,4 +20,12 @@ class PatientModel
         $stmt = $this->pdo->query("SELECT * FROM tbl_patient ORDER BY date_created DESC");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function findPatientById(int $id): ?array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM tbl_patient WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
 }

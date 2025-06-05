@@ -4,6 +4,7 @@ namespace App\Core;
 class Router
 {
     private static array $routes = [];
+    private static ?string $groupPrefix = null;
 
     public static function get(string $path, callable $handler): void
     {
@@ -15,10 +16,28 @@ class Router
         self::addRoute('POST', $path, $handler);
     }
 
+    public static function group(string $prefix, callable $callback): void
+    {
+        $previousPrefix = self::$groupPrefix;
+        self::$groupPrefix = rtrim($previousPrefix . '/' . trim($prefix, '/'), '/');
+
+        $callback();
+
+        self::$groupPrefix = $previousPrefix;
+    }
+
     private static function addRoute(string $method, string $path, callable $handler): void
     {
+        // Apply group prefix
+        $path = '/' . ltrim($path, '/');
+        if (self::$groupPrefix) {
+            $path = '/' . trim(self::$groupPrefix . $path, '/');
+        }
+
+        // Convert `{param}` to named regex
         $pattern = preg_replace('#\{([\w]+)\}#', '(?P<\1>[^/]+)', $path);
         $pattern = "#^" . rtrim($pattern, '/') . "/?$#";
+
         self::$routes[$method][] = ['pattern' => $pattern, 'handler' => $handler];
     }
 

@@ -7,7 +7,6 @@ class Utils
     {
         return '/' . ltrim($path, '/');
     }
-
     public static function isActive(string $matchPath): string
     {
         $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

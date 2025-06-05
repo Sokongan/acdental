@@ -16,16 +16,23 @@ class PatientController
 
     public function index(): void
     {
-        if (!isset($_SESSION['username'])) {
-            header('Location: /login');
-            exit();
-        }
 
         $patients = $this->patientModel->getAllPatients();
         View::render('page/patient/index', [
             'pageTitle' => 'Dashboard',
             'breadcrumbs' => ['Dashboard' => '/'],
             'patients' => $patients
+        ]);
+    }
+
+    public function view( int $id )
+    {
+        $patient = $this->patientModel->findPatientById($id);
+
+        View::render('page/patient/view', [
+            'pageTitle' => 'View Patient',
+            'breadcrumbs' => ['Dashboard' => '/', 'Patient' => '/patient'],
+            'patient' => $patient
         ]);
     }
 }
