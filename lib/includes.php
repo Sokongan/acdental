@@ -15,7 +15,7 @@
 
     <!-- jQuery and DataTables -->
     <link href="<?= BASE_URL ?>DataTables/datatables.min.css" rel="stylesheet">
- 
+
     <script src="<?= BASE_URL ?>DataTables/datatables.min.js"></script>
 
     <script>
@@ -31,15 +31,32 @@
             $('#myTable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-               
+
                     'csvHtml5',
                     'excelHtml5',
                     'pdfHtml5',
                     'print',
-                   
+
                 ]
             });
         });
+
+        function toggleEditMode(enable) {
+            const form = document.getElementById('patient_view');
+            const inputs = form.querySelectorAll('input');
+
+            inputs.forEach(input => {
+                input.disabled = !enable;
+            });
+
+            document.querySelector('#saveBtn').classList.toggle('d-none', !enable);
+            document.querySelector('#cancelBtn').classList.toggle('d-none', !enable);
+            form.querySelector('[onclick*="toggleEditMode"]').classList.toggle('d-none', enable);
+
+            if (!enable) {
+                form.reset(); // Optional: revert changes if cancel
+            }
+        }
     </script>
 
 

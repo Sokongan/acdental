@@ -29,9 +29,7 @@
                                             <td><?= ($patient['birth_date'] ?? '-') ?></td>
                                             <td><?= ($patient['address'] ?? '-') ?></td>
                                             <td>
-                                                <a href="patient/view/id=<?= $patient['id']; ?>" class="btn btn-info btn-sm">View</a>
-                                                <a href='patient/edit/' class="btn btn-warning btn-sm">Edit</a>
-                                                <a href='patient/delete/' class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this patient?');">Delete</a>
+                                            <a href="/patient/view/id=<?= $patient['id'] ?>" class="btn btn-primary btn-sm">View</a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

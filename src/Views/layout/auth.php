@@ -5,7 +5,7 @@
     <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'App' ?></title>
     <?php include(BASE_PATH . '/lib/includes.php'); ?>
 </head>
-<body style=" background: linear-gradient(135deg, #ef5e9f 0%, #f88733 100%);">
+<body style=" background: linear-gradient(135deg, #ef5e9f 0%, #f88733 100%);" class="overflow-y-hidden">
 <svg class="blob" style="bottom: 50%;  left: -12%"
     viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
     <path fill="#F2F4F8" d="M26.2,-38.2C37.1,-28.3,51,-24.7,60.3,-15.1C69.6,-5.5,74.1,10,70.5,23.4C66.9,36.8,55,48.1,41.8,59.8C28.7,71.6,14.4,83.8,-2.2,86.9C-18.8,89.9,-37.5,83.7,-42,69.1C-46.5,54.5,-36.7,31.6,-37,15.6C-37.3,-0.5,-47.7,-9.7,-52,-23.2C-56.2,-36.7,-54.4,-54.4,-44.7,-64.8C-35,-75.1,-17.5,-78,-4.9,-71.2C7.7,-64.5,15.4,-48.2,26.2,-38.2Z" transform="translate(100 100)" />

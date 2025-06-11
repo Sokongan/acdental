@@ -16,7 +16,7 @@
             <?php include('grid/breadcrumbs.php'); ?>
             <div class="container-fluid">
                 <div class="app-content">
-                    <div class="container-fluid">
+                    <div class="container-fluid overflow-auto">
                         <?= $content ?>
                     </div>
                 </div>

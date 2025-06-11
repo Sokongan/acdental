@@ -86,7 +86,7 @@
        <li class="nav-item dropdown user-menu">
          <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
            <img
-             src="./img/avatar.png"
+             src="<?= BASE_URL ?>img/avatar.png"
              class="user-image rounded-circle shadow"
              alt="User Image" />
            <span class="d-none d-md-inline"><?php echo $_SESSION['username']?></span>
@@ -95,7 +95,7 @@
            <!--begin::User Image-->
            <li class="user-header text-bg-primary">
              <img
-               src="./img/avatar.png"
+             src="<?= BASE_URL ?>img/avatar.png"
                class="rounded-circle shadow"
                alt="User Image" />
              <p>

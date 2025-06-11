@@ -28,4 +28,37 @@ class PatientModel
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
-}
+
+    public function updatePatient(int $id, array $data): bool
+    {
+
+        $sql = "
+            UPDATE tbl_patient 
+            SET 
+                first_name = :first_name,
+                last_name = :last_name,
+                middle_initial = :middle_initial,
+                phone = :phone,
+                email = :email,
+                last_visit = NOW(),
+                occupation = :occupation,
+                religion = :religion,
+                address = :address
+            WHERE id = :id
+        ";
+    
+        $stmt = $this->pdo->prepare($sql);
+    
+        $stmt->bindValue(':first_name', $data['first_name']);
+        $stmt->bindValue(':last_name', $data['last_name']);
+        $stmt->bindValue(':middle_initial', $data['middle_initial']);
+        $stmt->bindValue(':phone', $data['phone']);
+        $stmt->bindValue(':email', $data['email']);
+        $stmt->bindValue(':occupation', $data['occupation']);
+        $stmt->bindValue(':religion', $data['religion']);
+        $stmt->bindValue(':address', $data['address']);
+        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+    
+        return $stmt->execute(); // returns true on success
+    }
+}  

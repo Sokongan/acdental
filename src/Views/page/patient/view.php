@@ -10,95 +10,123 @@ $age = $today->diff($birthDate)->y;
     </a>
 
     <!-- Action Buttons -->
-    <div class="d-flex justify-content-end gap-2 mb-4">
-        <a href="patient_delete.php?id=<?= $patient['id'] ?>" class="btn btn-danger">
-            <i class='bi bi-trash'></i> Delete
-        </a>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">
-            <i class='bi bi-pencil'></i> Edit Profile
-        </button>
-        <a href="transaction.php?id=<?= $patient['id'] ?>" class="btn btn-warning">
-            <i class='bi bi-list'></i> Transactions
-        </a>
-        <button onclick="window.print()" class="btn btn-info">
-            <i class='bi bi-printer'></i> Print
-        </button>
-    </div>
-
-    <!-- Profile Header -->
-    <div class="card mb-4">
-        <div class="card-body row">
-            <h4 class="card-title mb-0">
-                <?= htmlspecialchars($patient['last_name'] . ', ' . $patient['first_name'] . ' ' . $patient['middle_initial']) ?>
-            </h4>
-            <div class="mt-2">ID: <?= htmlspecialchars($patient['id']) ?></div>
-            <div class="text-muted mt-1">Last Visit: <?= htmlspecialchars($patient['last_visit'] ?? '') ?></div>
-            <div class="text-muted">No Remarks</div>
+    <form class="card" id="patient_view" method="POST">
+        <div class="d-flex justify-content-end gap-2 mb-4 mt-2 px-2" id="actionButtons">
+            <button type="button" class="btn btn-primary" onclick="toggleEditMode(true)">
+                <i class='bi bi-pencil'></i> Edit
+            </button>
+            <button type="button" class="btn btn-danger">
+                <i class='bi bi-trash'></i> Delete
+            </button>
+            <button type="submit" class="btn btn-success d-none" id="saveBtn">
+                <a href="/patient/update" class="text-white text-decoration-none">
+                    <i class="bi bi-check"></i>Save
+                </a>
+            </button>
+            <button type="button" class="btn btn-secondary d-none" id="cancelBtn" onclick="toggleEditMode(false)">
+                <i class='bi bi-x'></i> Cancel
+            </button>
         </div>
-    </div>
+        <!-- Personal Details Form (disabled) -->
 
-    <!-- Personal Details Form (disabled) -->
-    <form class="row g-3">
-        <div class="row">
-            <div class="col-md-6">
-                <label class="form-label">Age</label>
-                <input type="text" class="form-control" value="<?= $age ?> yrs. old" disabled>
+        <div class="card-body border">
+            <div class="row">
+                <h5 class="card-title mb-2 ">Personal Information</h5>
+                <div class="col-md-4">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-control" name="last_name"
+                        value="<?= htmlspecialchars($patient['last_name']) ?>" disabled>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-control" name="first_name"
+                        value="<?= htmlspecialchars($patient['first_name']) ?>" disabled>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Middle Initial</label>
+                    <input type="text" class="form-control" name="middle_initial"
+                        value="<?= htmlspecialchars($patient['middle_initial']) ?>" disabled>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Age</label>
+                    <input type="text" class="form-control" value="<?= $age ?> yrs. old" disabled>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Birthday</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($patient['birth_date'] ?? '') ?>" disabled>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Gender</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($patient['gender'] ?? '') ?>" disabled>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Mobile</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($patient['phone'] ?? '') ?>" disabled>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($patient['email'] ?? '') ?>" disabled>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Civil Status</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($patient['civil_status'] ?? '') ?>" disabled>
+                </div>
             </div>
+        </div>
 
-            <div class="col-md-6">
-                <label class="form-label">Birthday</label>
-                <input type="text" class="form-control" value="<?= htmlspecialchars($patient['birth_date'] ?? '') ?>" disabled>
-            </div>
+        <div class=" card-body border">
+            <div class="row">
+                <h5 class="card-title mb-2 ">Address</h5>
+                <div class="col-12">
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($patient['address'] ?? '') ?>" disabled>
+                </div>
 
-            <div class="col-md-6">
-                <label class="form-label">Gender</label>
-                <input type="text" class="form-control" value="<?= htmlspecialchars($patient['gender'] ?? '') ?>" disabled>
-            </div>
+                <div class="col-md-6">
+                    <label class="form-label">Occupation</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($patient['occupation'] ?? '') ?>" disabled>
+                </div>
 
-            <div class="col-md-6">
-                <label class="form-label">Mobile</label>
-                <input type="text" class="form-control" value="<?= htmlspecialchars($patient['phone'] ?? '') ?>" disabled>
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Email</label>
-                <input type="text" class="form-control" value="<?= htmlspecialchars($patient['email'] ?? '') ?>" disabled>
-            </div>
-
-            <div class="col-md-6">
-                <label class="form-label">Civil Status</label>
-                <input type="text" class="form-control" value="<?= htmlspecialchars($patient['civil_status'] ?? '') ?>" disabled>
+                <div class="col-md-6">
+                    <label class="form-label">Religion</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($patient['religion'] ?? '') ?>" disabled>
+                </div>
             </div>
         </div>
 
-        <div class="col-12">
-            <label class="form-label">Address</label>
-            <input type="text" class="form-control" value="<?= htmlspecialchars($patient['address'] ?? '') ?>" disabled>
+        <div class="card-body border ">
+            <div class="row">
+                <h5 class="card-title mb-2 ">Other Information</h5>
+                <div class="col-12">
+                    <label class="form-label">Guardian</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($patient['guardian'] ?? '') ?>" disabled>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Source/Referral</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($patient['source'] ?? '') ?>" disabled>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Record Created</label>
+                    <input type="text" class="form-control" value="<?= htmlspecialchars($patient['date_created'] ?? '') ?>" disabled>
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">Last Visit</label>
+                    <input type="text" class="form-control" name="last_visit"
+                        value="<?= htmlspecialchars($patient['last_visit'] ?? '') ?>" disabled>
+                </div>
+                <div class="mt-2 col-md-12">
+                    <label class="form-label">Remarks</label>
+                    <textarea name="comment" class="form-control" rows="2" cols="100" disabled><?= htmlspecialchars($patient['remarks'] ?? '') ?></textarea></br>
+                </div>
+
+            </div>
         </div>
 
-        <div class="col-md-6">
-            <label class="form-label">Occupation</label>
-            <input type="text" class="form-control" value="<?= htmlspecialchars($patient['occupation'] ?? '') ?>" disabled>
-        </div>
-
-        <div class="col-md-6">
-            <label class="form-label">Religion</label>
-            <input type="text" class="form-control" value="<?= htmlspecialchars($patient['religion'] ?? '') ?>" disabled>
-        </div>
-
-        <div class="col-12">
-            <label class="form-label">Guardian</label>
-            <input type="text" class="form-control" value="<?= htmlspecialchars($patient['guardian'] ?? '') ?>" disabled>
-        </div>
-
-        <div class="col-md-6">
-            <label class="form-label">Source/Referral</label>
-            <input type="text" class="form-control" value="<?= htmlspecialchars($patient['source'] ?? '') ?>" disabled>
-        </div>
-
-        <div class="col-md-6">
-            <label class="form-label">Record Created</label>
-            <input type="text" class="form-control" value="<?= htmlspecialchars($patient['date_created'] ?? '') ?>" disabled>
-        </div>
     </form>
 </div>

@@ -16,6 +16,8 @@ Router::get('/dashboard', [$homeController, 'index']);
 Router::group('/patient', function () use ($patientController) {
     Router::get('/', [$patientController, 'index']);
     Router::get('/view/id={id}', [$patientController, 'view']);
+    Router::post('/update', [$patientController, 'update']);
+
 });
 
 // Auth routes
