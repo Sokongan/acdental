@@ -23,7 +23,6 @@ use App\Core\Utils;
       role="menu"
       data-accordion="false">
       <li class="nav-item menu-open">
-
         <a href="#" class="nav-link">
           <i class="nav-icon bi bi-speedometer"></i>
           <p>
@@ -33,7 +32,7 @@ use App\Core\Utils;
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="/dashboard" class="nav-link <?= Utils::isActive('/dashboard') ?>">
+            <a href="/" class="nav-link <?= Utils::isActive('/dashboard') ?>">
               <i class="nav-icon bi bi-circle"></i>
               <p>Dashboard</p>
             </a>

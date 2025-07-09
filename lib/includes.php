@@ -19,45 +19,18 @@
     <script src="<?= BASE_URL ?>DataTables/datatables.min.js"></script>
 
     <script>
-        $.extend(true, $.fn.dataTable.Buttons.defaults, {
-            dom: {
-                button: {
-                    className: 'btn btn-secondary btn-sm'
-                }
-            }
-        });
-
-        $(document).ready(function() {
-            $('#myTable').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-
-                    'csvHtml5',
-                    'excelHtml5',
-                    'pdfHtml5',
-                    'print',
-
-                ]
-            });
-        });
-
-        function toggleEditMode(enable) {
-            const form = document.getElementById('patient_view');
-            const inputs = form.querySelectorAll('input');
-
-            inputs.forEach(input => {
-                input.disabled = !enable;
+        $(function() {
+            const table = $('#patientsTable').DataTable({
+                dom: "<'d-flex justify-content-between align-items-center mb-3'B<'custom-add-btn'>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row mt-3'<'col-sm-6'i><'col-sm-6'p>>",
+                buttons: ['csvHtml5', 'excelHtml5', 'pdfHtml5', 'print']
             });
 
-            document.querySelector('#saveBtn').classList.toggle('d-none', !enable);
-            document.querySelector('#cancelBtn').classList.toggle('d-none', !enable);
-            form.querySelector('[onclick*="toggleEditMode"]').classList.toggle('d-none', enable);
-
-            if (!enable) {
-                form.reset(); // Optional: revert changes if cancel
-            }
-        }
+            $('.custom-add-btn').html('<a href="/patient/create" class="btn btn-success"><i class="bi bi-plus"></i> Add Patient</a>');
+        });
     </script>
+
 
 
 </head>

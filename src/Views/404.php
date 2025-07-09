@@ -11,7 +11,7 @@
         <h1>404 - Page Not Found</h1>
         <p>Route not found: <?= htmlspecialchars($_SERVER['REQUEST_URI']) ?></p>
         <p>The page you are looking for doesn't exist.</p>
-        <a href="/dashboard">Back to home</a>
+        <a href="/">Back to home</a>
     </div>
 </body>
 </html>

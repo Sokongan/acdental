@@ -6,27 +6,32 @@ namespace App\Core;
 
 abstract class Controller
 {
-    protected function requireLogin(): void
+    protected function startSession(): void
     {
         if (session_status() !== PHP_SESSION_ACTIVE) {
             session_start();
         }
+    }
+
+    protected function requireLogin(): void
+    {
+        $this->startSession();
 
         if (empty($_SESSION['username'])) {
             header('Location: /login');
-            exit();
+            exit;
         }
     }
 
-    protected function redirectIfLoggedIn(): void
+    protected function redirectIfAuthenticated(): void
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
+        $this->startSession();
 
         if (!empty($_SESSION['username'])) {
-            header('Location: /dashboard');
-            exit();
+            header('Location: /');
+            exit;
         }
     }
 }
+
+

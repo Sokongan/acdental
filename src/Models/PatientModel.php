@@ -46,9 +46,9 @@ class PatientModel
                 address = :address
             WHERE id = :id
         ";
-    
+
         $stmt = $this->pdo->prepare($sql);
-    
+
         $stmt->bindValue(':first_name', $data['first_name']);
         $stmt->bindValue(':last_name', $data['last_name']);
         $stmt->bindValue(':middle_initial', $data['middle_initial']);
@@ -58,7 +58,44 @@ class PatientModel
         $stmt->bindValue(':religion', $data['religion']);
         $stmt->bindValue(':address', $data['address']);
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
-    
+
         return $stmt->execute(); // returns true on success
     }
-}  
+    public function createPatient(array $data): bool
+    {
+        $sql = "INSERT INTO tbl_patient (
+                    first_name,
+                    last_name,
+                    middle_initial,
+                    phone,
+                    email,
+                    last_visit,
+                    occupation,
+                    religion,
+                    address
+                ) VALUES (
+                    :first_name,
+                    :last_name,
+                    :middle_initial,
+                    :phone,
+                    :email,
+                    NOW(),
+                    :occupation,
+                    :religion,
+                    :address
+                )";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        $stmt->bindValue(':first_name', $data['first_name']);
+        $stmt->bindValue(':last_name', $data['last_name']);
+        $stmt->bindValue(':middle_initial', $data['middle_initial']);
+        $stmt->bindValue(':phone', $data['phone']);
+        $stmt->bindValue(':email', $data['email']);
+        $stmt->bindValue(':occupation', $data['occupation']);
+        $stmt->bindValue(':religion', $data['religion']);
+        $stmt->bindValue(':address', $data['address']);
+
+        return $stmt->execute();
+    }
+}

@@ -12,7 +12,7 @@ class HomeController extends Controller
     
         View::render('page/home/dashboard', [
             'pageTitle'   => 'Dashboard',
-            'breadcrumbs' => ['Dashboard' => '/']
+            'breadcrumbs' => ['Dashboard' => '/'],
         ]);
     }
     

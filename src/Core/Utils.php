@@ -9,10 +9,13 @@ class Utils
     }
     public static function isActive(string $matchPath): string
     {
-        $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        return ($currentPath === self::url($matchPath)) ? 'active' : '';
+        $currentPath = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+        $matchPath = trim($matchPath, '/');
+    
+        // Allow subpaths like /patient/create or /patient/123 to still match /patient
+        return strpos($currentPath, $matchPath) === 0 ? 'active' : '';
     }
-
+    
     public static function breadcrumbs(array $params = []): string
     {
         $path = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'App' ?></title>
+<title>AC DENTAL MANAGEMENT SYSTEM</title>
 <?php include(BASE_PATH . '/lib/includes.php'); ?>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
 <div class="app-wrapper">

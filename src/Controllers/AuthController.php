@@ -18,8 +18,7 @@ class AuthController extends Controller
 
     public function showLogin()
     {
-        $this->redirectIfLoggedIn(); // redirect to dashboard if already logged in
-    
+        $this->redirectIfAuthenticated(); // only call when needed
         View::render('page/auth/login', [
             'pageTitle' => 'Login',
         ]);
@@ -28,6 +27,7 @@ class AuthController extends Controller
 
     public function login()
     {
+        
         $params = [
             'user' => $_POST['username'] ?? '',
             'password' => $_POST['password'] ?? ''
@@ -46,7 +46,7 @@ class AuthController extends Controller
             session_start();
             $_SESSION['username'] = $user['username'];
             session_regenerate_id(true);
-            header("Location: /dashboard");
+            header("Location: /");
             exit();
         } else {
             View::render('page/auth/login', [
