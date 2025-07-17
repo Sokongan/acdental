@@ -1,37 +1,39 @@
-<?php 
-
-// src/Core/Controller.php
+<?php
 
 namespace App\Core;
 
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+
 abstract class Controller
 {
-    protected function startSession(): void
+    protected SessionInterface $session;
+
+    public function __construct(SessionInterface $session)
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            session_start();
-        }
+        $this->session = $session;
     }
 
-    protected function requireLogin(): void
+    protected function requireLogin(Request $request): ?RedirectResponse
     {
-        $this->startSession();
-
-        if (empty($_SESSION['username'])) {
-            header('Location: /login');
-            exit;
+        if (!$this->session->has('username')) {
+            return $this->redirect('/login');
         }
+        return null;
     }
 
-    protected function redirectIfAuthenticated(): void
+    protected function redirectIfAuthenticated(Request $request): ?RedirectResponse
     {
-        $this->startSession();
-
-        if (!empty($_SESSION['username'])) {
-            header('Location: /');
-            exit;
+        if ($this->session->has('username')) {
+            return $this->redirect('/');
         }
+        return null;
+    }
+
+
+    protected function redirect(string $path): RedirectResponse
+    {
+        return new RedirectResponse(BASE_URL . '/' . ltrim($path, '/'));
     }
 }
-
-

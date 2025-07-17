@@ -1,99 +1,77 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
-use App\Core\View;
 use App\Core\Controller;
+use App\Core\View;
 use App\Models\UserModel;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class AuthController extends Controller
+final class AuthController extends Controller
 {
-    protected UserModel $userModel;
+    private UserModel $userModel;
+    private View $view;
 
-    public function __construct(UserModel $userModel)
+    public function __construct(UserModel $userModel, View $view, SessionInterface $session)
     {
+        parent::__construct($session);
         $this->userModel = $userModel;
+        $this->view = $view;
     }
 
-
-    public function showLogin()
+    public function showLogin(Request $request): Response
     {
-        $this->redirectIfAuthenticated(); // only call when needed
-        View::render('page/auth/login', [
+        if ($redirect = $this->redirectIfAuthenticated($request)) {
+            return $redirect;
+        }
+        $html = $this->view->render('page/auth/login', [
             'pageTitle' => 'Login',
         ]);
-    }
-    
 
-    public function login()
+        return new Response($html);
+    }
+
+    public function login(Request $request): Response
     {
-        
-        $params = [
-            'user' => $_POST['username'] ?? '',
-            'password' => $_POST['password'] ?? ''
-        ];
-    
-        if (!$params['user'] || !$params['password']) {
-            View::render('page/auth/login', [
-                'pageTitle' => 'Login',
-                'error' => 'Username and password are required.'
-            ]);
-            return;
+        $username = trim((string) $request->request->get('username', ''));
+        $password = trim((string) $request->request->get('password', ''));
+
+        if (!$username || !$password) {
+            return new Response(
+                $this->view->render('page/auth/login', [
+                    'pageTitle' => 'Login',
+                    'error'     => 'Username and password are required.'
+                ]),
+                400
+            );
         }
-    
-        $user = $this->userModel->userAuth($params['user']);
-        if ($user && $params['password'] === $user['password']) {
-            session_start();
-            $_SESSION['username'] = $user['username'];
-            session_regenerate_id(true);
-            header("Location: /");
-            exit();
-        } else {
-            View::render('page/auth/login', [
-                'pageTitle' => 'Login',
-                'error' => 'Invalid username or password.'
-            ]);
+
+        $user = $this->userModel->findByUsername($username);
+
+        if ($user && $password === $user['password']) {
+            $this->session->set('username', $user['username']);
+            $this->session->migrate(true);
+            return $this->redirect('/');
         }
+
+        return new Response(
+            $this->view->render('page/auth/login', [
+                'pageTitle' => 'Login',
+                'error'     => 'Invalid username or password.'
+            ]),
+            401
+        );
     }
-    
 
 
-    public function logout()
+    public function logout(): Response
     {
-        session_start();
-        session_destroy();
-        header('Location: /login');
-        exit();
+        $this->session->clear();
+        return $this->redirect('/login');
     }
-
-    // public function showRegister()
-    // {
-    //     View::render('auth/register', [
-    //         'pageTitle' => 'Register'
-    //     ]);
-    // }
-
-    // public function register()
-    // {
-    //     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    //         header('Location: /register');
-    //         exit();
-    //     }
-
-    //     $username = $_POST['username'] ?? '';
-    //     $password = $_POST['password'] ?? '';
-
-    //     // TODO: Validate input and save to DB
-    //     // This is just an example
-    //     if (strlen($username) < 3 || strlen($password) < 6) {
-    //         View::render('auth/register', [
-    //             'pageTitle' => 'Register',
-    //             'error' => 'Invalid input.'
-    //         ]);
-    //     } else {
-    //         // Simulate success
-    //         header('Location: /login');
-    //         exit();
-    //     }
-    // }
 }

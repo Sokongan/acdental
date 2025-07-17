@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'App' ?></title>
-    <?php include(BASE_PATH . '/lib/includes.php'); ?>
+    <?php $this->insert('lib/includes'); ?>
+
 </head>
 <body style=" background: linear-gradient(135deg, #ef5e9f 0%, #f88733 100%);" class="overflow-y-hidden">
 <svg class="blob" style="bottom: 50%;  left: -12%"
@@ -91,7 +92,6 @@
       </g>
     </g>
   </svg>
-    <?= $content ?>
-
+    <?=$this->section('content')?>
 </body>
 </html>

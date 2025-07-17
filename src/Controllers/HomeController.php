@@ -2,18 +2,34 @@
 
 namespace App\Controllers;
 
-use App\Core\View;
 use App\Core\Controller;
-class HomeController extends Controller
+use App\Core\View;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+
+final class HomeController extends Controller
 {
-    public function index()
+    private View $view;
+
+    public function __construct(View $view, SessionInterface $session)
     {
-        $this->requireLogin();
-    
-        View::render('page/home/dashboard', [
-            'pageTitle'   => 'Dashboard',
-            'breadcrumbs' => ['Dashboard' => '/'],
-        ]);
+        parent::__construct($session);   // initialize $this->session
+        $this->view = $view;
     }
-    
+
+    public function index(Request $request): Response
+    {
+           
+        if ($redirect = $this->requireLogin($request)) {
+            return $redirect;
+        }
+
+        $html = $this->view->render('page/home/dashboard', [
+            'pageTitle' => 'Dashboard',
+        ]);
+
+        return new Response($html);
+    }
 }
+

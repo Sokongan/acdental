@@ -1,3 +1,4 @@
+<?php $this->layout('layout/main', ['pageTitle' => $pageTitle]) ?>
 <div class="card">
   <div class="card-body container-fluid">
     <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">

@@ -1,34 +1,38 @@
 <?php
+declare(strict_types=1);
+
 namespace App\Core;
 
-use RuntimeException;
+use League\Plates\Engine;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
-class View
+final class View
 {
-    public static function render(string $view, array $params = [], ?string $layout = null): void
+    private Engine $engine;
+
+    public function __construct(string $viewsPath, SessionInterface $session)
     {
-        $viewFile = BASE_PATH . "/src/Views/{$view}.php";
+        $this->engine = new Engine($viewsPath);
 
-        if (!is_file($viewFile) || !is_readable($viewFile)) {
-            throw new RuntimeException("View file not found or not readable: {$viewFile}");
-        }
+        // register global function asset() so it's available in ALL templates and partials
+        $this->engine->registerFunction('asset', function (string $path): string {
+            $baseUrl = rtrim(BASE_URL, '/');
+            return $baseUrl . '/' . ltrim($path, '/');
+        });
 
-        extract($params, EXTR_SKIP);
+        // add global data (like username)
+        $this->engine->addData([
+            'username' => $session->get('username', 'Guest')
+        ]);
+    }
 
-        ob_start();
-        require $viewFile;
-        $content = ob_get_clean();
+    public function render(string $template, array $data = []): string
+    {
+        return $this->engine->render($template, $data);
+    }
 
-        if ($layout === null) {
-            $layout = (isset($_SESSION['username']) && !empty($_SESSION['username'])) ? 'main' : 'auth';
-        }
-
-        $layoutFile = BASE_PATH . "/src/Views/layout/{$layout}.php";
-
-        if (!is_file($layoutFile) || !is_readable($layoutFile)) {
-            throw new RuntimeException("Layout file not found or not readable: {$layoutFile}");
-        }
-
-        require $layoutFile;
+    public function getEngine(): Engine
+    {
+        return $this->engine;
     }
 }

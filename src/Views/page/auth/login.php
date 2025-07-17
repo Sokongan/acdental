@@ -1,4 +1,4 @@
-
+<?php $this->layout('layout/auth', ['title' => 'Login']) ?>
   <section class="min-vh-100 d-flex align-items-center justify-content-center">
     <div class="container h-100 px-5 ">
       <div class="row justify-content-center align-items-center h-100 ">
@@ -13,7 +13,7 @@
                     <h2 class="mb-4">MANAGEMENT SYSTEM</h4>
                   </div>
 
-                  <form action="/login" method="POST">
+                  <form action="<?= $this->asset('/login') ?>" method="POST">
                     <p class="mb-4 text-center">Please login to your account</p>
 
                     <div class="mb-3">
@@ -42,8 +42,6 @@
                     <div class="text-center mb-3">
                       <a class="text-muted" href="#">Forgot password?</a>
                     </div>
-
-
                   </form>
 
                 </div>
@@ -51,7 +49,7 @@
 
               <!-- Right side: Info panel -->
               <div class="col-lg-6 d-flex align-items-center justify-content-center text-center bg-light">
-                <img src="../../img/logo.jpeg" alt="Dental Graphic"
+                <img src="././img/logo.jpeg" alt="Dental Graphic"
                   class="img-fluid" style="width: 80%; height: auto; object-fit: cover;">
               </div>
             </div>
